@@ -1,14 +1,15 @@
-import React,{Component} from "react";
-const Axios=require('axios').default
+import axios from 'axios';
 
-export default class AxiosServices{
-    post(url,data,IsRequired=false,Header){
-        return Axios.post(url,data,IsRequired && Header)
+export default class AxiosServices {
+    post(url, data, IsRequired = false, Header) {
+        return axios.post(url, data, IsRequired ? Header : undefined);
     }
-    get(url,IsRequired=false,Header){
-        return Axios.get(url,IsRequiredv&& Header)
+
+    get(url, IsRequired = false, Header) {
+        return axios.get(url, IsRequired ? Header : undefined);
     }
-    delete(url,data,IsRequired=false,Header){
-        return Axios.delete(url,data,IsRequired && Header)
+
+    delete(url, IsRequired = false, Header) {
+        return axios.delete(url, IsRequired ? { headers: Header } : undefined);
     }
 }
