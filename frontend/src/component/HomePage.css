@@ -1,0 +1,105 @@
+/* General Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.Container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  background-color: #f4f6f8;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.SubContainer {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0px 8px 24px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 900px;
+}
+
+.Box1 {
+  height: 50px;
+  margin-bottom: 20px;
+  background-color: #e0e0e0;
+  border-radius: 8px;
+}
+
+.Box2 {
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.data-flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  background-color: #f0f2f5;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  color: #333;
+}
+
+.data-flex > div {
+  flex: 1;
+  text-align: center;
+  word-wrap: break-word;
+}
+
+.Input-Container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.Flex-Container {
+  background-color: #fafafa;
+  padding: 20px;
+  border: 2px dashed #90caf9;
+  border-radius: 12px;
+}
+
+.Header {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1976d2;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.Sub-flex-Container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.FileName {
+  flex: 1;
+  min-width: 200px;
+  height: 40px;
+  background-color: #e3f2fd;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0 12px;
+}
+
+.UploadButton {
+  flex-shrink: 0;
+}
+
+.flex-Button {
+  display: flex;
+  justify-content: flex-end;
+}

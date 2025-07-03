@@ -58,3 +58,6 @@ C:\Users\vimal\Desktop\Bulk_Upload\api\obj\Debug\net8.0\api.pdb
 C:\Users\vimal\Desktop\Bulk_Upload\api\obj\Debug\net8.0\api.genruntimeconfig.cache
 C:\Users\vimal\Desktop\Bulk_Upload\api\obj\Debug\net8.0\ref\api.dll
 C:\Users\vimal\Desktop\Bulk_Upload\api\bin\Debug\net8.0\launchSettings.json
+C:\Users\vimal\Desktop\Bulk_Upload\api\bin\Debug\net8.0\CsvHelper.dll
+C:\Users\vimal\Desktop\Bulk_Upload\api\bin\Debug\net8.0\LumenWorks.Framework.IO.dll
+C:\Users\vimal\Desktop\Bulk_Upload\api\obj\Debug\net8.0\api.sourcelink.json
