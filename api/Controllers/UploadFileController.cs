@@ -66,7 +66,7 @@ namespace api.Controllers
             }
             return Ok(response);
         }
-        [HttpDelete]
+        [HttpPost]
         public async Task<IActionResult> DeleteRecord(DeleteRecordRequest request)
         {
             DeleteRecordResponse response = new DeleteRecordResponse();

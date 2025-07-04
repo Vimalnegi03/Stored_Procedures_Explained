@@ -62,47 +62,58 @@ namespace api.DataAcessLayer
             return response;
         }
 
-        public  async Task<ReadRecordResponse> ReadRecord(ReadRecordRequest request)
-        {
-            ReadRecordResponse response = new ReadRecordResponse();
-            response.IsSuccess = true;
-            response.Message = "Successful";
-            try
+       public async Task<ReadRecordResponse> ReadRecord(ReadRecordRequest request)
+{
+    ReadRecordResponse response = new ReadRecordResponse();
+    response.IsSuccess = true;
+    response.Message = "Successful";
+    response.data = new List<ReadRecord>();
+            response.TotalCount = 0;
+
+    try
             {
                 if (_mySqlConnection.State != ConnectionState.Open)
                 {
                     await _mySqlConnection.OpenAsync();
                 }
+
+                // Get total count first
+                using (MySqlCommand countCommand = new MySqlCommand("SELECT COUNT(*) FROM pathwaysdb.bulkuploadtable", _mySqlConnection))
+                {
+                    object countResult = await countCommand.ExecuteScalarAsync();
+                    response.TotalCount = Convert.ToInt32(countResult);
+                }
+
+                int offset = request.PageNumber * request.NumberOfRecordPerPage;
                 string SqlQuery = @"SELECT * FROM pathwaysdb.bulkuploadtable LIMIT @Offset,@RecordPerPage";
+
                 using (MySqlCommand sqlCommand = new MySqlCommand(SqlQuery, _mySqlConnection))
                 {
-                    int offset = (request.PageNumber - 1) * request.NumberOfRecordPerPage;
                     sqlCommand.CommandType = CommandType.Text;
                     sqlCommand.CommandTimeout = 180;
-                    sqlCommand.Parameters.AddWithValue("@Offset",offset);
+                    sqlCommand.Parameters.AddWithValue("@Offset", offset);
                     sqlCommand.Parameters.AddWithValue("@RecordPerPage", request.NumberOfRecordPerPage);
 
                     using (DbDataReader sqlDataReader = await sqlCommand.ExecuteReaderAsync())
                     {
-                        if (sqlDataReader.HasRows)
+                        while (await sqlDataReader.ReadAsync())
                         {
-                            response.data = new List<ReadRecord>();
-                            while (await sqlDataReader.ReadAsync())
+                            ReadRecord getdata = new ReadRecord
                             {
-                                ReadRecord getdata = new ReadRecord();
-                                getdata.UserId = sqlDataReader["UserId"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["UserID"]) : -1;
-                                getdata.UserName = sqlDataReader["UserName"] != DBNull.Value ? Convert.ToString(sqlDataReader["UserName"]) : "-1";
-                                getdata.EmailID = sqlDataReader["EmailID"] != DBNull.Value ? Convert.ToString(sqlDataReader["EmailID"]) : "-1";
-                                getdata.MobileNumber = sqlDataReader["MobileNumber"] != DBNull.Value ? Convert.ToString(sqlDataReader["MobileNumber"]) : "-1";
-                                getdata.Age = sqlDataReader["Age"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["Age"]) : -1;
-                                getdata.Salary = sqlDataReader["Salary"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["Salary"]) : -1;
-                                response.data.Add(getdata);
+                                UserId = sqlDataReader["UserId"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["UserId"]) : -1,
+                                UserName = sqlDataReader["UserName"] != DBNull.Value ? Convert.ToString(sqlDataReader["UserName"]) : "-1",
+                                EmailID = sqlDataReader["EmailID"] != DBNull.Value ? Convert.ToString(sqlDataReader["EmailID"]) : "-1",
+                                MobileNumber = sqlDataReader["MobileNumber"] != DBNull.Value ? Convert.ToString(sqlDataReader["MobileNumber"]) : "-1",
+                                Age = sqlDataReader["Age"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["Age"]) : -1,
+                                Salary = sqlDataReader["Salary"] != DBNull.Value ? Convert.ToInt32(sqlDataReader["Salary"]) : -1
+                            };
 
-                            }
+                            response.data.Add(getdata);
                         }
-                        else
+
+                        if (response.data.Count == 0)
                         {
-                            response.Message = "Record Not Found";
+                            response.Message = "No records found";
                         }
                     }
                 }
@@ -115,10 +126,11 @@ namespace api.DataAcessLayer
             finally
             {
                 await _mySqlConnection.CloseAsync();
-               await _mySqlConnection.DisposeAsync();
+                await _mySqlConnection.DisposeAsync();
             }
-            return response;
-        }
+
+    return response;
+}
 
         public async Task<UploadCsvFileResponse> UploadCsvFile(UploadCsvFileRequest request, string Path)
         {

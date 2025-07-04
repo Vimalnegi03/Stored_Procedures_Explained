@@ -16,6 +16,7 @@ namespace api.CommonLayer.Model
         public string Message { get; set; }
 
         public List<ReadRecord> data { get; set; }
+         public int TotalCount { get; set; } 
     }
     public class ReadRecord
     {
