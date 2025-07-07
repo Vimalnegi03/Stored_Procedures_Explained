@@ -1,3 +1,5 @@
+
+![Homepage](bulk_upload.png)
 ```
 DataSync Web Application
 Welcome to DataSync, a powerful and user-friendly web application designed for efficient data management with bulk upload capabilities. This repository contains a robust backend built with .NET and a dynamic, responsive frontend powered by React. The application supports bulk data uploads via CSV and Excel files, with features like pagination to enhance performance and usability.
